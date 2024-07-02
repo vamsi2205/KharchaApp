@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kharcha/auth.dart';
 
-
 class AllowancePage extends StatefulWidget {
   @override
   Home createState() => Home();
 }
 
 class Home extends State<AllowancePage> {
-
   FirebaseFirestore db = FirebaseFirestore.instance;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   User? user = Auth().currentUser;
@@ -33,11 +31,13 @@ class Home extends State<AllowancePage> {
       var db = FirebaseFirestore.instance;
 
       try {
-        QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await db.collection("users").doc(documentId).collection("Allowance").get();
+        QuerySnapshot<Map<String, dynamic>> querySnapshot = await db
+            .collection("users")
+            .doc(documentId)
+            .collection("Allowance")
+            .get();
 
         for (var docSnapshot in querySnapshot.docs) {
-
           itemList.add(docSnapshot.data());
         }
       } catch (e) {
@@ -53,80 +53,80 @@ class Home extends State<AllowancePage> {
     if (resultant.isNotEmpty) {
       setState(() {
         userProfileList = resultant;
-        progress =false;
+        progress = false;
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double progressValue = 0.0;
     return Scaffold(
         appBar: AppBar(
-          title: Text("Allowance List",style: TextStyle(color: Colors.white),textScaleFactor: 1.2),
+          title: Text("Allowance List",
+              style: TextStyle(color: Colors.white), textScaleFactor: 1.2),
           backgroundColor: Colors.blue,
-
         ),
-        body: progress ? Center(
-            child: CircularProgressIndicator(value: 0.7, // The progress value from 0.0 to 1.0
-              backgroundColor: Colors.grey,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-              strokeWidth: 5,)
-        ) : Container(
-         child: StreamBuilder(
-              stream: users.doc(user?.email).collection('Allowance').snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(
-                    child:
-                    CircularProgressIndicator(),
-                  );
-                return ListView.builder(
-                    itemCount: snapshot.data?.docs.length,
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot ds = snapshot.data?.docs[index] as DocumentSnapshot<Object?>;
-                      return Card(
-                        child: Slidable(
-                          endActionPane: ActionPane(
-                            motion: const BehindMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) =>
-                                {
-                                  deleteData(ds.id),
-                                },
-                                icon: Icons.delete,
-                                backgroundColor: Colors.red,
+        body: progress
+            ? Center(
+                child: CircularProgressIndicator(
+                value: 0.7, // The progress value from 0.0 to 1.0
+                backgroundColor: Colors.grey,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                strokeWidth: 5,
+              ))
+            : Container(
+                child: StreamBuilder(
+                    stream: users
+                        .doc(user?.email)
+                        .collection('Allowance')
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData)
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      return ListView.builder(
+                          itemCount: snapshot.data?.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot ds = snapshot.data?.docs[index]
+                                as DocumentSnapshot<Object?>;
+                            return Card(
+                              child: Slidable(
+                                endActionPane: ActionPane(
+                                  motion: const BehindMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) => {
+                                        deleteData(ds.id),
+                                      },
+                                      icon: Icons.delete,
+                                      backgroundColor: Colors.red,
+                                    ),
+                                    SlidableAction(
+                                      onPressed: (context) => {
+                                        editData(ds.id),
+                                      },
+                                      icon: Icons.edit,
+                                      backgroundColor: Colors.lightGreen,
+                                    )
+                                  ],
+                                ),
+                                child: ListTile(
+                                  title: Text(ds['allowance'] ?? 'Hi'),
+
+                                  // subtitle: Text(ds['spent on'] ?? 'bye'),
+
+                                  leading: CircleAvatar(
+                                    child: Icon(Icons.account_circle),
+                                  ),
+                                  trailing: Text(ds['source'] ?? 'Hello'),
+                                ),
                               ),
-                              SlidableAction(
-                                onPressed: (context) =>
-                                {
-                                  editData(ds.id),
-                                },
-                                icon: Icons.edit,
-                                backgroundColor: Colors.lightGreen,
-                              )
-                            ],
-                          ),
-                          child: ListTile(
-                            title: Text(ds['allowance'] ?? 'Hi'),
-
-                            // subtitle: Text(ds['spent on'] ?? 'bye'),
-
-                            leading: CircleAvatar(
-                              child: Icon(Icons.account_circle),
-                            ),
-                            trailing: Text(ds['source'] ??
-                                'Hello'),
-
-                          ),
-                        ),
-                      );
-                    }
-                );
-              }
-          ),
-        )
-    );
+                            );
+                          });
+                    }),
+              ));
   }
 
   deleteData(String id) {
@@ -135,7 +135,5 @@ class Home extends State<AllowancePage> {
     });
   }
 
-  editData(String id) {
-
-  }
+  editData(String id) {}
 }
