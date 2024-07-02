@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "802292796687",
+    "project_id": "rupee-4366d",
+    "storage_bucket": "rupee-4366d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:802292796687:android:8fc2a79c625a89e93b027a",
+        "android_client_info": {
+          "package_name": "com.example.kharcha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "802292796687-fv1lc7cjbe7emtivkd50bb81jo8fh6gh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_A-N4LtG_xfbDVUrw2Alv1HD0jIh_DTo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "802292796687-3diaa7474g8776omfjk7kc29b2qagiks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
